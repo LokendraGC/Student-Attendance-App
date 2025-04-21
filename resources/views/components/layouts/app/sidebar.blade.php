@@ -14,6 +14,8 @@
                 <x-app-logo />
             </a>
 
+            <flux:navlist variant="outline">
+
             <flux:navlist.item
             icon="home"
             :href="route(auth()->user()->role == 'teacher' ? 'teacher.dashboard' : 'admin.dashboard')"
@@ -23,12 +25,24 @@
         </flux:navlist.item>
 
         <flux:navlist.item
-            icon="users"
+            icon="academic-cap"
             :href="route('student.index')"
             :current="request()->routeIs('student.index')"
             wire:navigate>
             {{ __('Student Management') }}
         </flux:navlist.item>
+
+
+        <flux:navlist.item
+            icon="bars-3-bottom-left"
+            :href="route('grade.index')"
+            :current="request()->routeIs('grade.index')"
+            wire:navigate>
+            {{ __('Grades') }}
+        </flux:navlist.item>
+
+    </flux:navlist>
+
 
             <flux:spacer />
 
