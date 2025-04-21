@@ -10,18 +10,24 @@ class Attendance extends Model
     protected $fillable = [
         "grade_id",
         "student_id",
+        "subject_id",
         "date",
         "status",
         "reason",
     ];
 
-         public function student(): BelongsTo
-         {
-            return $this->belongsTo(Student::class);
-         }
+    public function student(): BelongsTo
+    {
+        return $this->belongsTo(Student::class);
+    }
 
-         public function grade(): BelongsTo
-         {
-            return $this->belongsTo(Grade::class);
-         }
+    public function grade(): BelongsTo
+    {
+        return $this->belongsTo(Grade::class);
+    }
+
+    public function subject(): BelongsTo
+    {
+        return $this->belongsTo(Subject::class);
+    }
 }

@@ -15,33 +15,87 @@
             </a>
 
             <flux:navlist variant="outline">
+                {{-- Dashboard --}}
+                <flux:navlist.item
+                    icon="home"
+                    :href="route(auth()->user()->role == 'teacher' ? 'teacher.dashboard' : 'admin.dashboard')"
+                    :current="request()->routeIs(auth()->user()->role == 'teacher' ? 'teacher.dashboard' : 'admin.dashboard')"
+                    wire:navigate>
+                    {{ __('Dashboard') }}
+                </flux:navlist.item>
 
-            <flux:navlist.item
-            icon="home"
-            :href="route(auth()->user()->role == 'teacher' ? 'teacher.dashboard' : 'admin.dashboard')"
-            :current="request()->routeIs(auth()->user()->role == 'teacher' ? 'teacher.dashboard' : 'admin.dashboard')"
-            wire:navigate>
-            {{ __('Dashboard') }}
-        </flux:navlist.item>
+                {{-- Student Management Dropdown --}}
+                @php
+                $isActive = request()->routeIs(['student.index','student.create','student.edit']) ||
+                request()->routeIs(['grade.index','grade.create','grade.edit']) || request()->routeIs('attendance.page') || request()->routeIs(['subject.index','subject.create','subject.edit']) ;
+            @endphp
 
-        <flux:navlist.item
-            icon="academic-cap"
-            :href="route('student.index')"
-            :current="request()->routeIs('student.index')"
-            wire:navigate>
-            {{ __('Student Management') }}
-        </flux:navlist.item>
+            <div
+                x-data="{ open: {{ $isActive ? 'true' : 'false' }} }"
+                class="relative"
+                {{-- @click.away="open = false" --}}
+            >
+                <button
+                    @click="open = !open"
+                    class="flex items-center w-full px-4 py-2 text-sm hover:bg-gray-700 focus:outline-none transition-colors"
+                    :class="{ 'text-white bg-gray-800': open || {{ $isActive ? 'true' : 'false' }} }"
+                >
+                    <x-icon name="academic-cap" class="mr-2 w-5 h-5" />
+                    {{ __('Student Management') }}
+                    <svg class="ml-auto w-4 h-4 transform transition-transform duration-300"
+                         :class="{ 'rotate-180': open }"
+                         fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+
+                <div
+                    x-show="open"
+                    x-transition:enter="transition ease-out duration-300 delay-200"
+                    x-transition:leave="transition ease-in duration-300 delay-200"
+                    class="ml-6 space-y-1 mt-1"
+                    x-cloak
+                >
+                    <flux:navlist.item
+                        icon="users"
+                        :href="route('student.index')"
+                        :current="request()->routeIs('student.index')"
+                        wire:navigate>
+                        {{ __('All Students') }}
+                    </flux:navlist.item>
+
+                    <flux:navlist.item
+                        icon="bars-3-bottom-left"
+                        :href="route('grade.index')"
+                        :current="request()->routeIs('grade.index')"
+                        wire:navigate>
+                        {{ __('Grades') }}
+                    </flux:navlist.item>
+
+                    <flux:navlist.item
+                        icon="book-open"
+                        :href="route('subject.index')"
+                        :current="request()->routeIs('subject.index')"
+                        wire:navigate>
+                        {{ __('Subjects') }}
+                    </flux:navlist.item>
+
+                    <flux:navlist.item
+                        icon="calendar-days"
+                        :href="route('attendance.page')"
+                        :current="request()->routeIs('attendance.page')"
+                        wire:navigate>
+                        {{ __('Attendances') }}
+                    </flux:navlist.item>
+                </div>
+            </div>
 
 
-        <flux:navlist.item
-            icon="bars-3-bottom-left"
-            :href="route('grade.index')"
-            :current="request()->routeIs('grade.index')"
-            wire:navigate>
-            {{ __('Grades') }}
-        </flux:navlist.item>
+            </flux:navlist>
 
-    </flux:navlist>
+
+
+
 
 
             <flux:spacer />
