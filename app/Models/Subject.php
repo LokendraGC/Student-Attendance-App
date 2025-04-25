@@ -13,6 +13,7 @@ class Subject extends Model
 
     protected $fillable = [
         "name",
+        "grade_name",
     ];
 
     public function atttendance():HasMany

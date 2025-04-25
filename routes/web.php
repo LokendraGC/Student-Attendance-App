@@ -39,6 +39,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/grade/create', AddGrade::class)->name('grade.create');
     Route::get('edit/grade/{id}', EditGrade::class)->name('grade.edit');
 
+    // subject
     Route::get('/subject-list', SubjectList::class)->name('subject.index');
     Route::get('/subject/create', AddSubject::class)->name('subject.create');
     Route::get('edit/subject/{id}', EditSubject::class)->name('subject.edit');
