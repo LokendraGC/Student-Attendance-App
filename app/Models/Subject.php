@@ -16,8 +16,12 @@ class Subject extends Model
         "grade_name",
     ];
 
-    public function atttendance():HasMany
+    public function atttendance(): HasMany
     {
         return $this->hasMany(Attendance::class);
+    }
+    public function students(): HasMany
+    {
+        return $this->hasMany(Subject::class);
     }
 }

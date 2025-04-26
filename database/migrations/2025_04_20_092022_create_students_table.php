@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('certificate')->nullable();
             $table->string('image')->nullable();
             $table->foreignId('grade_id')->nullable()->constrained('grades')->onDelete('set null');
+            $table->foreignId('subject_id')->nullable()->constrained('subjects')->onDelete('set null');
             $table->timestamps();
         });
     }

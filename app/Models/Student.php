@@ -20,6 +20,7 @@ class Student extends Model
         "certificate",
         "image",
         "grade_id",
+        "subject_id",
     ];
 
     public function grade(): BelongsTo
@@ -33,4 +34,9 @@ class Student extends Model
         return $this->hasMany(Attendance::class);
     }
 
+    // one student has many subject
+    public function subjects(): HasMany
+    {
+        return $this->hasMany(Subject::class);
+    }
 }
