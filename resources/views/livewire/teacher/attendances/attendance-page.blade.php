@@ -1,7 +1,5 @@
 <div>
     <div class="grid grid-cols-[8fr_8fr_8fr_8fr_1fr] gap-3">
-
-
         <div>
             <select wire:model = "year"
                 class="py-3 px-4 pe-9 block w-full border-gray-200 bg-gray-50
@@ -83,7 +81,7 @@
                                     <h2 class="text-xl font-semibold text-gray-800 dark:text-neutral-200">
                                         Attendance
                                     </h2>
-                                    <p class="text-sm text-gray-600 dark:text-neutral-400">
+                                    <p class="text-md text-gray-600 dark:text-neutral-400">
                                         Attendance overview of {{ $selected_month }}
                                     </p>
                                 </div>

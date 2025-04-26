@@ -36,7 +36,6 @@ class AttendancePage extends Component
     {
         if ($this->year &&  $this->month && $this->selectedGrade && $this->selectedSubject) {
             $this->students = Student::where('grade_id', $this->selectedGrade)
-                ->where('subject_id', $this->selectedSubject)
                 ->get();
             // generate day in a month
             foreach ($this->students as $student) {
@@ -55,7 +54,7 @@ class AttendancePage extends Component
     {
         try {
             $date = Carbon::create($this->year, $this->month, $day)->format('Y-m-d');
-
+            $student = Student::find($student_id);
             Attendance::updateOrCreate(
                 [
                     'student_id' => $student_id,
@@ -70,7 +69,7 @@ class AttendancePage extends Component
 
             $this->attendance[$student_id][$day] = $status;
             if (!$silent) {
-                Toaster::success("Attendance for date $date for Student $student_id updated.");
+                Toaster::success("Attendance for date $date and Student $student->first_name $student->last_name updated.");
             }
         } catch (\Exception $e) {
             Toaster::error("Error updating attendance: " . $e->getMessage());
@@ -81,7 +80,7 @@ class AttendancePage extends Component
     public function markAll($day, $status)
     {
         foreach ($this->students as $student) {
-            $this->updateAttendance($student->id, $day, $status);
+            $this->updateAttendance($student->id, $day, $status, true);
         }
         Toaster::success("All students marked as '$status' for day $day.");
     }
