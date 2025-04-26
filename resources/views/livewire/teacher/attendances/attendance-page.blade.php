@@ -1,7 +1,7 @@
 <div>
     <div class="grid grid-cols-[8fr_8fr_8fr_8fr_1fr] gap-3">
         <div>
-            <select wire:model = "year"
+            <select wire:model.live = "year"
                 class="py-3 px-4 pe-9 block w-full border-gray-200 bg-gray-50
                     rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700
                      dark:border-neutral-700 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
@@ -13,7 +13,7 @@
         </div>
 
         <div>
-            <select wire:model = "month"
+            <select wire:model.live = "month"
                 class="py-3 px-4 pe-9 block w-full border-gray-200 bg-gray-50
                     rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700
                      dark:border-neutral-700 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
@@ -39,7 +39,7 @@
 
 
         <div class="">
-            <select wire:model = "selectedSubject"
+            <select wire:model.live = "selectedSubject"
                 class="py-3 px-4 pe-9 block w-full border-gray-200 bg-gray-50
                          rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700
                           dark:border-neutral-700 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
@@ -84,6 +84,20 @@
                                     <p class="text-md text-gray-600 dark:text-neutral-400">
                                         Attendance overview of {{ $selected_month }}
                                     </p>
+                                </div>
+
+                                <div>
+                                    <button wire:click = "exportToExcel" type="button"
+                                        class="cursor-pointer py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 focus:outline-none focus:bg-green-700
+                                         disabled:opacity-50 disabled:pointer-events-none">
+                                        Export to Excel
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" />
+                                        </svg>
+
+                                    </button>
                                 </div>
 
                             </div>

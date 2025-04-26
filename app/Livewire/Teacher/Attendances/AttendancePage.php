@@ -3,12 +3,14 @@
 namespace App\Livewire\Teacher\Attendances;
 
 use App\Enums\TwelveMonths;
+use App\Exports\AttendanceExport;
 use App\Models\Attendance;
 use App\Models\Grade;
 use App\Models\Student;
 use App\Models\Subject;
 use Carbon\Carbon;
 use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
 use Masmerise\Toaster\Toaster;
 
 class AttendancePage extends Component
@@ -85,6 +87,16 @@ class AttendancePage extends Component
         Toaster::success("All students marked as '$status' for day $day.");
     }
 
+
+    public function exportToExcel()
+    {
+        return Excel::download(new AttendanceExport(
+            $this->year,
+            $this->month,
+            $this->selectedGrade,
+            $this->selectedSubject,
+        ), 'attendance.xlsx');
+    }
 
     public function render()
     {
