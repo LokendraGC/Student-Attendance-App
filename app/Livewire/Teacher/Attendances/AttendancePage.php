@@ -26,25 +26,39 @@ class AttendancePage extends Component
     public $status = null;
     public $student_id = null;
 
-    public function updated($propertyName)
+
+
+    public function updated()
     {
         if ($this->year && $this->month && $this->selectedGrade && $this->selectedSubject) {
             $this->fetchStudent();
         }
     }
 
+    protected $listeners = ['refreshAttendance' => 'fetchStudent'];
+
+    public function updatedYear() { $this->fetchStudent(); }
+    public function updatedMonth() { $this->fetchStudent(); }
+    public function updatedSelectedGrade() { $this->fetchStudent(); }
+    public function updatedSelectedSubject() { $this->fetchStudent(); }
 
     public function fetchStudent()
     {
-        if ($this->year &&  $this->month && $this->selectedGrade && $this->selectedSubject) {
-            $this->students = Student::where('grade_id', $this->selectedGrade)
-                ->get();
-            // generate day in a month
+        // Remove the if condition - let the validation happen in the query
+        $this->students = Student::when($this->selectedGrade, function($query) {
+                $query->where('grade_id', $this->selectedGrade);
+            })
+            ->get();
+
+        // Only proceed if we have all required filters
+        if ($this->year && $this->month && $this->selectedGrade && $this->selectedSubject) {
             foreach ($this->students as $student) {
                 foreach (range(1, Carbon::create($this->year, $this->month)->daysInMonth) as $day) {
-                    $date  = Carbon::create($this->year, $this->month, $day)->format('Y-m-d');
-                    // fetching student status
-                    $this->attendance[$student->id][$day] = Attendance::where('student_id', $student->id)->whereDate('date', $date)->value('status') ?? 'Present';
+                    $date = Carbon::create($this->year, $this->month, $day)->format('Y-m-d');
+                    $this->attendance[$student->id][$day] = Attendance::where('student_id', $student->id)
+                        ->where('subject_id', $this->selectedSubject)
+                        ->whereDate('date', $date)
+                        ->value('status') ?? 'Present';
                 }
             }
         }
