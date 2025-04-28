@@ -89,7 +89,6 @@
                         </div>
                     </div>
 
-
                         @endif
                     @endauth
                 </nav>

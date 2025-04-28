@@ -15,17 +15,36 @@ use App\Livewire\Teacher\Students\StudentList;
 use App\Livewire\Teacher\Subjects\AddSubject;
 use App\Livewire\Teacher\Subjects\EditSubject;
 use App\Livewire\Teacher\Subjects\SubjectList;
+use App\Livewire\TeacherDashboard;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified', 'teacher'])
-    ->name('teacher.dashboard');
+// Route::view('dashboard', 'dashboard')
+//     ->middleware(['auth', 'verified', 'teacher'])
+//     ->name('teacher.dashboard');
+
+
 
 Route::middleware(['auth'])->group(function () {
+
+    // admin
+    Route::middleware(['auth','role:admin'])->group(function () {
+        Route::get('admin/dashboard', AdminDashboard::class)->name('admin.dashboard');
+    });
+
+    // teacher
+    Route::middleware(['auth','role:teacher'])->group(function () {
+        Route::view('teacher/dashboard', TeacherDashboard::class)->name('teacher.dashboard');
+    });
+
+    // student
+    Route::middleware(['auth','role:student'])->group(function () {
+        Route::view('dashboard', 'dashboard')->name('student.dashboard');
+    });
+
     Route::redirect('settings', 'settings/profile');
 
     Route::middleware(['auth'])->group(function () {
@@ -51,10 +70,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/profile', Profile::class)->name('settings.profile');
     Route::get('settings/password', Password::class)->name('settings.password');
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
-
-    Route::middleware(['admin', 'auth'])->group(function () {
-        Route::get('admin/dashboard', AdminDashboard::class)->name('admin.dashboard');
-    });
 });
 
 require __DIR__ . '/auth.php';

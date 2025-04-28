@@ -10,16 +10,28 @@
         <flux:sidebar sticky stashable class="border-r border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
-            <a href="{{ route(auth()->user()->role == 'teacher' ? 'teacher.dashboard' : 'admin.dashboard') }}">
+                 @php
+                 $dashboardName = auth()->user()->hasRole('admin') ? 'admin.dashboard' :
+                     (auth()->user()->hasRole('teacher') ? 'teacher.dashboard' :
+                     'student.dashboard');
+                    //  dd($dashboardName)
+                  @endphp
+
+
+            <a href="{{ route( $dashboardName ) }}">
                 <x-app-logo />
             </a>
+
+            {{-- @php
+                dd(auth()->user()->hasRole('admin'));
+            @endphp --}}
 
             <flux:navlist variant="outline">
                 {{-- Dashboard --}}
                 <flux:navlist.item
                     icon="home"
-                    :href="route(auth()->user()->role == 'teacher' ? 'teacher.dashboard' : 'admin.dashboard')"
-                    :current="request()->routeIs(auth()->user()->role == 'teacher' ? 'teacher.dashboard' : 'admin.dashboard')"
+                    :href="route($dashboardName)"
+                    :current="request()->routeIs($dashboardName)"
                     wire:navigate>
                     {{ __('Dashboard') }}
                 </flux:navlist.item>
