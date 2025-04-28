@@ -19,7 +19,7 @@ class TeacherMiddleware
         if (Auth::user() && Auth::user()->role != 'teacher') {
             return redirect()->route('admin.dashboard');
         }
-
         return $next($request);
+
     }
 }

@@ -137,7 +137,6 @@
                                                             <option value="sick">Sick</option>
                                                             <option value="other">Other</option>
                                                         </select>
-
                                                     </span>
                                                 </th>
                                             @endforeach

@@ -16,7 +16,7 @@ class Student extends Model
         "first_name",
         "last_name",
         "email",
-        "age",
+        "phone",
         "certificate",
         "image",
         "grade_id",
@@ -38,5 +38,9 @@ class Student extends Model
     public function subjects(): HasMany
     {
         return $this->hasMany(Subject::class);
+    }
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

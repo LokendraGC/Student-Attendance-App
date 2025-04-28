@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Auth;
 
+use App\Models\Grade;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
@@ -21,11 +22,18 @@ class Register extends Component
 
     public string $password_confirmation = '';
 
+    public $grades;
+
+    public function mount(){
+        $this->grades = Grade::all();
+    }
+
     /**
      * Handle an incoming registration request.
      */
     public function register(): void
     {
+
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],

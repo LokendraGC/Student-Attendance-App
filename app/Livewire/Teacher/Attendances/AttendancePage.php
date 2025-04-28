@@ -4,6 +4,7 @@ namespace App\Livewire\Teacher\Attendances;
 
 use App\Enums\TwelveMonths;
 use App\Exports\AttendanceExport;
+use App\Mail\MonthlyAttendanceReport;
 use App\Models\Attendance;
 use App\Models\Grade;
 use App\Models\Student;
@@ -111,6 +112,7 @@ class AttendancePage extends Component
             $this->selectedSubject,
         ), 'attendance.xlsx');
     }
+
 
     public function render()
     {

@@ -14,13 +14,14 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->string('first_name');
-            $table->string('last_name');
+            $table->string('last_name')->nullable();
             $table->string('email')->nullable();
-            $table->bigInteger('age');
+            $table->string('phone', 20)->nullable();
             $table->string('certificate')->nullable();
             $table->string('image')->nullable();
             $table->foreignId('grade_id')->nullable()->constrained('grades')->onDelete('set null');
             $table->foreignId('subject_id')->nullable()->constrained('subjects')->onDelete('set null');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
