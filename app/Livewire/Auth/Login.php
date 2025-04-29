@@ -43,7 +43,11 @@ class Login extends Component
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();
 
-        $this->redirectIntended(default: route(auth()->user()->role == 'teacher' ? 'teacher.dashboard' : 'admin.dashboard' , absolute: false), navigate: true);
+        $dashboardName = auth()->user()->hasRole('admin') ? 'admin.dashboard' :
+            (auth()->user()->hasRole('teacher') ? 'teacher.dashboard' :
+            'student.dashboard');
+
+        $this->redirectIntended(default: route($dashboardName , absolute: false), navigate: true);
     }
 
     /**

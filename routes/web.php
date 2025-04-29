@@ -37,7 +37,7 @@ Route::middleware(['auth'])->group(function () {
 
     // teacher
     Route::middleware(['auth','role:teacher'])->group(function () {
-        Route::view('teacher/dashboard', TeacherDashboard::class)->name('teacher.dashboard');
+        Route::get('/teacher/dashboard', TeacherDashboard::class)->name('teacher.dashboard');
     });
 
     // student

@@ -14,13 +14,17 @@ class AddStudent extends Component
 {
     public $first_name = '';
     public $last_name = '';
-    public $age = '';
+    public $phone = '';
     public $email = '';
     public $grade_id = '';
+    public $password = '';
+    public $confirm_password = '';
     public $grades = [];
 
     public function save()
     {
+
+
 
         $data =  $this->validate([
             'first_name' => 'required|string',

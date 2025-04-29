@@ -26,7 +26,6 @@ class RoleSeeder extends Seeder
         Permission::create(["name"=> "delete grade"]);
         Permission::create(["name"=> "view grade"]);
 
-
         Permission::create(["name"=> "add subject"]);
         Permission::create(["name"=> "edit subject"]);
         Permission::create(["name"=> "delete subject"]);

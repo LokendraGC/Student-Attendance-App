@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('phone', 20)->nullable();
             $table->string('certificate')->nullable();
             $table->string('image')->nullable();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('grade_id')->nullable()->constrained('grades')->onDelete('set null');
             $table->foreignId('subject_id')->nullable()->constrained('subjects')->onDelete('set null');
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

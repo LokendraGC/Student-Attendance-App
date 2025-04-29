@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class AdminSeeder extends Seeder
 {
@@ -14,11 +15,19 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
-            "name" => "admin",
-            "email" => "gclokendra10@gmail.com",
-            "password" => Hash::make("password"),
-            "role" => "admin",
-        ]);
+        $adminRole = Role::firstOrCreate(["name" => "admin"]);
+
+        $user = User::firstOrCreate(
+            ['email' => 'gclokendra10@gmail.com'],
+            [
+                'name' => 'Admin',
+                'password' => Hash::make('password123')
+            ]
+        );
+
+        $user->assignRole($adminRole);
     }
+
+    // php artisan make:AdminSeeder
+    // php artisan db:seed --class=AdminSeeder
 }

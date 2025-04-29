@@ -6,19 +6,19 @@
 
     <div
         class=" mt-5 p-4 relative z-10 bg-white border border-gray-200 rounded-xl sm:mt-10 md:p-10 dark:bg-neutral-900 dark:border-neutral-700">
-        <form wire:submit = "save">
+        <form wire:submit = "register">
 
                 <div class=" mb-4 sm:mb-8">
-                    <label for="hs-feedback-post-comment-first_name"
+                    <label for="hs-feedback-post-comment-name"
                         class="block mb-2 text-sm font-medium dark:text-white">Name</label>
-                    <input wire:model="first_name" type="text" id="hs-feedback-post-comment-name-1"
+                    <input wire:model="name" type="text" id="hs-feedback-post-comment-name-1"
                         class="py-2.5 sm:py-3 px-4 block
                     w-full border-gray-200 bg-gray-50 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500
                     disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700
                      dark:text-neutral-300 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                         placeholder="Full Name">
 
-                    @error('first_name')
+                    @error('name')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
                     @enderror
 
@@ -40,41 +40,55 @@
 
 
             <div class="mb-4 sm:mb-8">
-                <label for="hs-feedback-post-comment-age"
+                <label for="hs-feedback-post-comment-phone"
                     class="block mb-2 text-sm font-medium dark:text-white">Contact Number</label>
-                <input wire:model="number" type="number" min="0" max="200"
+                <input wire:model="phone" type="text" min="0" max="200"
                     id="hs-feedback-post-comment-email-1"
                     class="py-2.5 sm:py-3 px-4 block
                     w-full border-gray-200 bg-gray-50 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500
                     disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700
                      dark:text-neutral-300 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                     placeholder="Enter Contact Number">
-                @error('age')
+                @error('phone')
                     <span class="text-red-600 text-sm">{{ $message }}</span>
                 @enderror
             </div>
 
+
             <div class="mb-4 sm:mb-8">
-                <label for="hs-feedback-post-comment-grade"
-                    class="block mb-2 text-sm font-medium dark:text-white">Grade</label>
-                <select wire:model="grade_id"
-                    class="py-3 px-4 pe-9 block w-full border-gray-200 bg-gray-50 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500
-                disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700
-                 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
-                    <option selected="">Select Grade</option>
-                    @foreach ($grades as $grade)
-                        <option wire:key="{{ $grade->id }}" value="{{ $grade->id }}">
-                            {{ $grade->name }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('grade')
+                <label for="hs-feedback-post-comment-qualification"
+                    class="block mb-2 text-sm font-medium dark:text-white">Qualification</label>
+                <input wire:model="number" type="text" min="0" max="200"
+                    id="hs-feedback-post-comment-email-1"
+                    class="py-2.5 sm:py-3 px-4 block
+                    w-full border-gray-200 bg-gray-50 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500
+                    disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700
+                     dark:text-neutral-300 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                    placeholder="Enter Qualification">
+                @error('qualification')
                     <span class="text-red-600 text-sm">{{ $message }}</span>
                 @enderror
             </div>
 
+
             <div class="mb-4 sm:mb-8">
-                <label for="hs-feedback-post-comment-age"
+                <label for="hs-feedback-post-comment-description"
+                    class="block mb-2 text-sm font-medium dark:text-white">Description</label>
+                <input wire:model="number" type="text" min="0" max="200"
+                    id="hs-feedback-post-comment-email-1"
+                    class="py-2.5 sm:py-3 px-4 block
+                    w-full border-gray-200 bg-gray-50 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500
+                    disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700
+                     dark:text-neutral-300 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                    placeholder="Enter Description">
+                @error('description')
+                    <span class="text-red-600 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+
+
+            <div class="mb-4 sm:mb-8">
+                <label for="hs-feedback-post-comment-password"
                     class="block mb-2 text-sm font-medium dark:text-white">Create Password</label>
                 <input wire:model="password" type="password" min="0" max="200"
                     id="hs-feedback-post-comment-email-1"
@@ -83,22 +97,22 @@
                     disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700
                      dark:text-neutral-300 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                     placeholder="Create Password">
-                @error('age')
+                @error('password')
                     <span class="text-red-600 text-sm">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="mb-4 sm:mb-8">
-                <label for="hs-feedback-post-comment-age"
+                <label for="hs-feedback-post-comment-password_confirmation"
                     class="block mb-2 text-sm font-medium dark:text-white">Confirm Password</label>
-                <input wire:model="confirm_password" type="password" min="0" max="200"
+                <input wire:model="password_confirmation" type="password" min="0" max="200"
                     id="hs-feedback-post-comment-email-1"
                     class="py-2.5 sm:py-3 px-4 block
                     w-full border-gray-200 bg-gray-50 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500
                     disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700
                      dark:text-neutral-300 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                     placeholder="Confirm Password">
-                @error('age')
+                @error('password_confirmation')
                     <span class="text-red-600 text-sm">{{ $message }}</span>
                 @enderror
             </div>
