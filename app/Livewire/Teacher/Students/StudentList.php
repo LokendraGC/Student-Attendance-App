@@ -3,6 +3,7 @@
 namespace App\Livewire\Teacher\Students;
 
 use App\Models\Student;
+use App\Models\User;
 use Livewire\Component;
 use Masmerise\Toaster\Toaster;
 
@@ -10,10 +11,17 @@ class StudentList extends Component
 {
     public $confirmingDelete = null;
 
+    public $role_students = '';
+
+    public function mount()
+    {
+        $this->role_students =  User::role('student')->get();
+    }
+
     public function confirmDelete()
     {
         if ($this->confirmingDelete) {
-            Student::findOrFail($this->confirmingDelete)->delete();
+            User::findOrFail($this->confirmingDelete)->delete();
             $this->confirmingDelete = null;
 
             Toaster::success("Student deleted successfully");
@@ -24,7 +32,7 @@ class StudentList extends Component
     public function render()
     {
         return view('livewire.teacher.students.student-list', [
-            'students' => Student::all(),
+            'role_students' => $this->role_students,
         ]);
     }
 }

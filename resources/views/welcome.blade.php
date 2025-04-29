@@ -90,8 +90,8 @@
 
                         <!-- Dropdown menu -->
                         <div id="dropdownMenu" class="hidden absolute left-0 mt-1 w-full rounded-sm border dark:border-[#3E3E3A] bg-white dark:bg-neutral-700 shadow-lg z-10">
-                            <a href="{{ route('register') }}" class="block px-[24px] py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-neutral-800">Student</a>
-                            <a href="{{ route('teacher.register') }}" class="block px-[24px] py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-neutral-800">Teacher</a>
+                            <a href="{{ route('register') }}" class="block px-[24px] py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-neutral-800">As Student</a>
+                            <a href="{{ route('teacher.register') }}" class="block px-[24px] py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-neutral-800">As Teacher</a>
                         </div>
                     </div>
 

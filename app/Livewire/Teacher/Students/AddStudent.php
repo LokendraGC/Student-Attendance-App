@@ -4,6 +4,7 @@ namespace App\Livewire\Teacher\Students;
 
 use App\Models\Grade;
 use App\Models\Student;
+use App\Models\User;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use Masmerise\Toaster\Toaster;
@@ -12,8 +13,7 @@ use Masmerise\Toaster\Toaster;
 
 class AddStudent extends Component
 {
-    public $first_name = '';
-    public $last_name = '';
+    public $name = '';
     public $phone = '';
     public $email = '';
     public $grade_id = '';
@@ -24,17 +24,26 @@ class AddStudent extends Component
     public function save()
     {
 
-
-
-        $data =  $this->validate([
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
-            'email' => 'required|email|unique:students,email',
-            'age' => 'required|integer',
+        $this->validate([
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|string|max:20',
             'grade_id' => 'required',
         ]);
 
-        Student::create($data);
+        $user = User::create([
+            'name' => $this->name,
+            'email' => $this->email,
+            'password' => $this->password,
+        ]);
+
+        $user->assignRole('student');
+
+        Student::create([
+            'phone' => $this->phone,
+            'grade_id' => $this->grade_id,
+        ]);
+
         $this->reset();
 
         Toaster::success('Student added successfully');
