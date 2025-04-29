@@ -2,6 +2,9 @@
 
 use App\Livewire\Admin\AdminDashboard;
 use App\Livewire\Auth\RegisterTeacher;
+use App\Livewire\Roles\AddRole;
+use App\Livewire\Roles\EditRole;
+use App\Livewire\Roles\RoleIndex;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -31,17 +34,17 @@ Route::get('/', function () {
 Route::middleware(['auth'])->group(function () {
 
     // admin
-    Route::middleware(['auth','role:admin'])->group(function () {
+    Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('admin/dashboard', AdminDashboard::class)->name('admin.dashboard');
     });
 
     // teacher
-    Route::middleware(['auth','role:teacher'])->group(function () {
+    Route::middleware(['auth', 'role:teacher'])->group(function () {
         Route::get('/teacher/dashboard', TeacherDashboard::class)->name('teacher.dashboard');
     });
 
     // student
-    Route::middleware(['auth','role:student'])->group(function () {
+    Route::middleware(['auth', 'role:student'])->group(function () {
         Route::view('dashboard', 'dashboard')->name('student.dashboard');
     });
 
@@ -70,6 +73,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/profile', Profile::class)->name('settings.profile');
     Route::get('settings/password', Password::class)->name('settings.password');
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
+
+    // Roles
+    Route::get('/roles-list', RoleIndex::class)->name('role.index');
+    Route::get('/role/create', AddRole::class)->name('role.create');
+    Route::get('/edit/role/{id}', EditRole::class)->name('role.edit');
 });
 
 require __DIR__ . '/auth.php';

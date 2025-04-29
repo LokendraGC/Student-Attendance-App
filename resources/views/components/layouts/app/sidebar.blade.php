@@ -102,6 +102,21 @@
             </div>
 
 
+            <flux:navlist variant="outline">
+                {{-- Roles --}}
+                <flux:navlist.item
+                    icon="user"
+                    :href="route('role.index')"
+                    :current="request()->routeIs('role.index')"
+                    wire:navigate>
+                    {{ __('Roles') }}
+                </flux:navlist.item>
+
+
+            </flux:navlist>
+
+
+
             </flux:navlist>
 
             <flux:spacer />
