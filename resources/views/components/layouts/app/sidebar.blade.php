@@ -67,6 +67,8 @@
                     class="ml-6 space-y-1 mt-1"
                     x-cloak
                 >
+
+                @hasanyrole('teacher|admin')
                     <flux:navlist.item
                         icon="users"
                         :href="route('student.index')"
@@ -74,6 +76,7 @@
                         wire:navigate>
                         {{ __('All Students') }}
                     </flux:navlist.item>
+                    @endhasanyrole
 
                     <flux:navlist.item
                         icon="bars-3-bottom-left"
@@ -101,7 +104,7 @@
                 </div>
             </div>
 
-
+            @hasrole('admin')
             <flux:navlist variant="outline">
                 {{-- Roles --}}
                 <flux:navlist.item
@@ -111,9 +114,8 @@
                     wire:navigate>
                     {{ __('Roles') }}
                 </flux:navlist.item>
-
-
             </flux:navlist>
+            @endhasrole
 
 
 

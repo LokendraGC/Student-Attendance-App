@@ -6,9 +6,17 @@ use Livewire\Component;
 use Masmerise\Toaster\Toaster;
 use Spatie\Permission\Models\Role;
 
+
 class RoleIndex extends Component
 {
+    public $role_emails = '';
     public $confirmingDelete = null;
+
+
+    public function mount()
+    {
+        $this->role_emails = Role::with('users')->get();
+    }
 
     public function confirmDelete()
     {
