@@ -5,6 +5,7 @@ namespace App\Exports;
 use App\Models\Attendance;
 use App\Models\Grade;
 use App\Models\Subject;
+use App\Models\User;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -34,11 +35,19 @@ class AttendanceExport implements FromCollection, WithHeadings, WithCustomStartC
 
     public function collection()
     {
+        // First get all student IDs with their names
+        $students = User::whereHas('roles', function ($query) {
+            $query->where('name', 'student');
+        })
+            ->select('id', 'name') // Explicitly select name
+            ->get()
+            ->keyBy('id'); // Key the collection by ID for easy lookup
+
         $attendances = Attendance::whereYear('date', $this->year)
             ->whereMonth('date', $this->month)
             ->where('grade_id', $this->grade_id)
             ->where('subject_id', $this->subject_id)
-            ->with('student')
+            ->whereIn('student_id', $students->pluck('id')->toArray())
             ->get()
             ->groupBy('student_id');
 
@@ -46,10 +55,12 @@ class AttendanceExport implements FromCollection, WithHeadings, WithCustomStartC
         $data = [];
 
         foreach ($attendances as $studentId => $records) {
-            $student = $records->first()->student;
+            // Get student name from our preloaded collection
+            $studentName = $students->has($studentId) ? $students[$studentId]->name : 'Unknown';
+
             $row = [
                 'Student ID' => $studentId,
-                'Student Name' => $student->first_name . ' ' . $student->last_name
+                'Student Name' => $studentName // Use the name from our preloaded collection
             ];
 
             for ($day = 1; $day <= $daysInMonth; $day++) {
@@ -89,13 +100,14 @@ class AttendanceExport implements FromCollection, WithHeadings, WithCustomStartC
     public function registerEvents(): array
     {
         return [
-            AfterSheet::class => function(AfterSheet $event) {
+            AfterSheet::class => function (AfterSheet $event) {
                 $event->sheet->mergeCells('A1:E1');
-                $event->sheet->setCellValue('A1',
+                $event->sheet->setCellValue(
+                    'A1',
                     'STUDENT ATTENDANCE REPORT FOR ' .
-                    Carbon::create($this->year, $this->month)->format('F Y') .
-                    ' - ' . $this->grade->name .
-                    ' - ' . $this->subject->name
+                        Carbon::create($this->year, $this->month)->format('F Y') .
+                        ' - ' . $this->grade->name .
+                        ' - ' . $this->subject->name
                 );
 
                 $event->sheet->getStyle('A1')->applyFromArray([

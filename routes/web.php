@@ -50,7 +50,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::redirect('settings', 'settings/profile');
 
-    Route::middleware(['auth'])->group(function () {
+    Route::middleware(['auth','role:teacher|admin'])->group(function () {
         // students
         Route::get('/student-list', StudentList::class)->name('student.index');
         Route::get('create/student', AddStudent::class)->name('student.create');
@@ -59,16 +59,16 @@ Route::middleware(['auth'])->group(function () {
 
     // grades
     Route::get('/grade-list', GradeList::class)->name('grade.index');
-    Route::get('/grade/create', AddGrade::class)->name('grade.create');
-    Route::get('edit/grade/{id}', EditGrade::class)->name('grade.edit');
+    Route::get('/grade/create', AddGrade::class)->name('grade.create')->middleware('role:teacher|admin');
+    Route::get('edit/grade/{id}', EditGrade::class)->name('grade.edit')->middleware('role:teacher|admin');
 
     // subject
     Route::get('/subject-list', SubjectList::class)->name('subject.index');
-    Route::get('/subject/create', AddSubject::class)->name('subject.create');
-    Route::get('edit/subject/{id}', EditSubject::class)->name('subject.edit');
+    Route::get('/subject/create', AddSubject::class)->name('subject.create')->middleware('role:teacher|admin');
+    Route::get('edit/subject/{id}', EditSubject::class)->name('subject.edit')->middleware('role:teacher|admin');
 
     // Attendances
-    Route::get('/attendance', AttendancePage::class)->name('attendance.page');
+    Route::get('/attendance', AttendancePage::class)->name('attendance.page')->middleware('role:teacher|admin');
 
     Route::get('settings/profile', Profile::class)->name('settings.profile');
     Route::get('settings/password', Password::class)->name('settings.password');
@@ -77,7 +77,7 @@ Route::middleware(['auth'])->group(function () {
     // Roles
     Route::get('/roles-list', RoleIndex::class)->name('role.index');
     Route::get('/role/create', AddRole::class)->name('role.create');
-    Route::get('/edit/role/{id}', EditRole::class)->name('role.edit');
+    Route::get('/edit/role/{id}', EditRole::class)->name('role.edit')->middleware('role:teacher|admin');
 });
 
 require __DIR__ . '/auth.php';

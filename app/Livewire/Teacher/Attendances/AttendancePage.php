@@ -9,6 +9,7 @@ use App\Models\Attendance;
 use App\Models\Grade;
 use App\Models\Student;
 use App\Models\Subject;
+use App\Models\User;
 use Carbon\Carbon;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
@@ -26,7 +27,15 @@ class AttendancePage extends Component
     public $attendance = null;
     public $status = null;
     public $student_id = null;
+    public $grades = null;
 
+
+    public function mount()
+    {
+        $this->grades = Grade::whereHas('students.user', function ($query) {
+            $query->role('student');
+        })->get();
+    }
 
 
     public function updated()
@@ -38,20 +47,39 @@ class AttendancePage extends Component
 
     protected $listeners = ['refreshAttendance' => 'fetchStudent'];
 
-    public function updatedYear() { $this->fetchStudent(); }
-    public function updatedMonth() { $this->fetchStudent(); }
-    public function updatedSelectedGrade() { $this->fetchStudent(); }
-    public function updatedSelectedSubject() { $this->fetchStudent(); }
+    public function updatedYear()
+    {
+        $this->fetchStudent();
+    }
+    public function updatedMonth()
+    {
+        $this->fetchStudent();
+    }
+    public function updatedSelectedGrade()
+    {
+        $this->fetchStudent();
+    }
+    public function updatedSelectedSubject()
+    {
+        $this->fetchStudent();
+    }
 
     public function fetchStudent()
     {
         // Remove the if condition - let the validation happen in the query
-        $this->students = Student::when($this->selectedGrade, function($query) {
-                $query->where('grade_id', $this->selectedGrade);
+        // $this->students = Student::when($this->selectedGrade, function($query) {
+        //         $query->where('grade_id', $this->selectedGrade);
+        //     })
+        //     ->get();
+
+        $this->students = User::role('student')
+            ->whereHas('student', function ($query) {
+                if ($this->selectedGrade) {
+                    $query->where('grade_id', $this->selectedGrade);
+                }
             })
             ->get();
 
-        // Only proceed if we have all required filters
         if ($this->year && $this->month && $this->selectedGrade && $this->selectedSubject) {
             foreach ($this->students as $student) {
                 foreach (range(1, Carbon::create($this->year, $this->month)->daysInMonth) as $day) {
@@ -66,12 +94,17 @@ class AttendancePage extends Component
     }
 
 
-
     public function updateAttendance($student_id, $day, $status, $silent = false)
     {
         try {
             $date = Carbon::create($this->year, $this->month, $day)->format('Y-m-d');
-            $student = Student::find($student_id);
+
+            $student = User::role('student')->find($student_id); // cleaner and efficient
+
+            if (!$student) {
+                throw new \Exception("Student not found.");
+            }
+
             Attendance::updateOrCreate(
                 [
                     'student_id' => $student_id,
@@ -85,13 +118,15 @@ class AttendancePage extends Component
             );
 
             $this->attendance[$student_id][$day] = $status;
+
             if (!$silent) {
-                Toaster::success("Attendance for date $date and Student $student->first_name $student->last_name updated.");
+                Toaster::success("Attendance for $date - {$student->first_name} {$student->last_name} updated.");
             }
         } catch (\Exception $e) {
             Toaster::error("Error updating attendance: " . $e->getMessage());
         }
     }
+
 
 
     public function markAll($day, $status)
@@ -121,7 +156,6 @@ class AttendancePage extends Component
 
         return view('livewire.teacher.attendances.attendance-page', [
             'twelvemonths' => TwelveMonths::cases(),
-            'grades' => Grade::all(),
             'subjects' => ($grade = Grade::find($this->selectedGrade))
                 ? Subject::where('grade_name', $grade->name)->get()
                 : [],

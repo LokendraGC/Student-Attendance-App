@@ -94,6 +94,7 @@
                         {{ __('Subjects') }}
                     </flux:navlist.item>
 
+                    @hasanyrole('teacher|admin')
                     <flux:navlist.item
                         icon="calendar-days"
                         :href="route('attendance.page')"
@@ -101,6 +102,7 @@
                         wire:navigate>
                         {{ __('Attendances') }}
                     </flux:navlist.item>
+                    @endhasanyrole
                 </div>
             </div>
 

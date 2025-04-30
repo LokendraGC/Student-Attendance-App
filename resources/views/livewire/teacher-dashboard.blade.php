@@ -1,3 +1,5 @@
 <div>
-    {{-- Success is as dangerous as failure. --}}
+
+    <livewire:dashboard-overview />
+
 </div>

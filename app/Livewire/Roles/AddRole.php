@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Roles;
 
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Masmerise\Toaster\Toaster;
 use Spatie\Permission\Models\Permission;
@@ -17,6 +18,11 @@ class AddRole extends Component
 
     public function mount()
     {
+        // this code is for prevent the accessing the route if it is not admin or teacher
+        if( !Auth::user()->hasRole(['admin','teacher']) ){
+            abort(403);
+        }
+
         $this->allPermissions = Permission::all();
     }
 

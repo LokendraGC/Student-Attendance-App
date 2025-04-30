@@ -60,13 +60,14 @@
                                     </th>
 
 
-
-                                    <th class="py-3 sm:pr-[37px] text-end" colspan="2">
-                                        <span
-                                            class="text-xs font-semibold uppercase text-gray-800 dark:text-neutral-200">
-                                            Action
-                                        </span>
-                                    </th>
+                                    @can('add.subject')
+                                        <th class="py-3 sm:pr-[37px] text-end" colspan="2">
+                                            <span
+                                                class="text-xs font-semibold uppercase text-gray-800 dark:text-neutral-200">
+                                                Action
+                                            </span>
+                                        </th>
+                                    @endcan
 
 
                                 </tr>

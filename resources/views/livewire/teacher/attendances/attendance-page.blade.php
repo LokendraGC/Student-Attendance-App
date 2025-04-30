@@ -1,8 +1,7 @@
 <div>
     <div class="grid grid-cols-[8fr_8fr_8fr_8fr_1fr] gap-3">
         <div>
-            <select wire:model.live = "year"
-                wire:change="fetchStudent"
+            <select wire:model.live = "year" wire:change="fetchStudent"
                 class="py-3 px-4 pe-9 block w-full border-gray-200 bg-gray-50
                     rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700
                      dark:border-neutral-700 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
@@ -14,8 +13,7 @@
         </div>
 
         <div>
-            <select wire:model.live = "month"
-                wire:change="fetchStudent"
+            <select wire:model.live = "month" wire:change="fetchStudent"
                 class="py-3 px-4 pe-9 block w-full border-gray-200 bg-gray-50
                     rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700
                      dark:border-neutral-700 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
@@ -28,8 +26,7 @@
         </div>
 
         <div class="">
-            <select wire:model.live= "selectedGrade"
-                wire:change="fetchStudent"
+            <select wire:model.live= "selectedGrade" wire:change="fetchStudent"
                 class="py-3 px-4 pe-9 block w-full border-gray-200 bg-gray-50
                              rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700
                               dark:border-neutral-700 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
@@ -42,8 +39,7 @@
 
 
         <div class="">
-            <select wire:model.live = "selectedSubject"
-                wire:change="fetchStudent"
+            <select wire:model.live = "selectedSubject" wire:change="fetchStudent"
                 class="py-3 px-4 pe-9 block w-full border-gray-200 bg-gray-50
                          rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700
                           dark:border-neutral-700 dark:text-neutral-200 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
@@ -151,7 +147,7 @@
                                                     <div class="px-6 py-2">
                                                         <span
                                                             class="font-semibold text-sm text-gray-800 dark:text-neutral-200">
-                                                            {{ $student->first_name }} {{ $student->last_name }}
+                                                            {{ $student->name }}
                                                         </span>
                                                     </div>
                                                 </td>
